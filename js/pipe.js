@@ -26,11 +26,10 @@ PIPE.pipe = function(spec, my) {
 	}
 	
 	var json = $.toJSON(spec.msg);
-	var data = "OK:msg:" + json.length + ":" + json;
 	
 	$.ajax({ type: 'POST',
 		 url: my.url,
-		 data: data,
+		 data: json,
 		 success: function(data, status, xhr) {
 		     var res = /OK:body:([0-9]+):(.+)$/.exec(data);
 		     if(res && spec.success) {
