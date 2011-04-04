@@ -110,7 +110,7 @@ class Pipe
     $fp = NULL;
     if(defined('PIPE_URL') && defined('PIPE_PORT'))
       $fp = @fsockopen(PIPE_URL, PIPE_PORT, $errno, $errstr, 1);
-    
+
     if ($fp) 
       {
 	stream_set_timeout($fp,1);
