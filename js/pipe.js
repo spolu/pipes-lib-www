@@ -3,7 +3,7 @@ var PIPE = PIPE || {};
 PIPE.pipe = function(spec, my) {
     my = my || {};
 
-    my.url = spec.url || '/pipe-www/pipe-js.php';
+    my.url = spec.url || '/www-lib/pipe-js.php';
 
     var that = {};
 
