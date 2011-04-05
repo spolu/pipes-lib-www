@@ -1,8 +1,8 @@
-var PIPE = PIPE || {};
+BIPSLY.ns('pipe');
 
-PIPE.pipe = function(spec, my) {
+BIPSLY.pipe = function(spec, my) {
     my = my || {};
-
+    
     my.url = spec.url || '/www-lib/pipe-js.php';
 
     var that = {};
