@@ -71,10 +71,6 @@ else
 	    $cd = http_parse_cookie($headers['Set-Cookie']);
 	    foreach ($cd->cookies as $key => $value) 
 	      {
-		if($key == 'auth')
-		  {
-		    $this->user = current(explode("-", $value));
-		  }
 		setcookie($key, $value, $cd->expires, $cd->path, $cd->domain);
 		$_COOKIE[$key] = $value;
 	      }
