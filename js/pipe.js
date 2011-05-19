@@ -1,13 +1,13 @@
-var PIPE = PIPE || {};
+BIPSLY.ns('pipe');
 
-PIPE.pipe = function(spec, my) {
+BIPSLY.pipe = function(spec, my) {
     my = my || {};
-
-    my.url = spec.url || '/pipe-www/pipe-js.php';
+    
+    my.url = spec.url || '/www-lib/pipe-js.php';
 
     var that = {};
 
-    var msg;
+    var msg, user;
 
     msg = function(spec, cb) {
 
@@ -32,8 +32,10 @@ PIPE.pipe = function(spec, my) {
 		 data: json,
 		 success: function(data, status, xhr) {
 		     var res = /OK:body:([0-9]+):(.+)$/.exec(data);
-		     if(res && spec.success) {
-			 spec.success($.evalJSON(res[2]));
+		     if(res) {
+			 if(spec.success) {
+			     spec.success($.evalJSON(res[2]));
+			 }
 		     }
 		     else if(spec.error) {
 			 spec.error(new Error(data));
@@ -46,7 +48,18 @@ PIPE.pipe = function(spec, my) {
 	       });
     };
 
+    user = function() {
+	if($.cookie('auth')) {
+	    var auth = /^([a-zA-Z0-9]+)-(.+)-([a-zA-Z0-9]+)$/.exec($.cookie('auth'));
+	    if(auth) {
+		return auth[1];
+	    }
+	}
+	return undefined;
+    };
+
     that.msg = msg;
+    that.user = user;
     
     return that;
 };

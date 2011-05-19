@@ -27,7 +27,6 @@ class Pipe
   
   public $url;
   public $port;
-  public $user;
 
   public function __construct($url = null, $port = null) {
     $this->url = null;
@@ -54,9 +53,9 @@ class Pipe
     $this->user = '';
   }
   
-  public function set_user($user)
+  public function user()
   {
-    $this->user = $user;
+    return $this->user_from_auth($_COOKIE["auth"]);
   }
 
   /**
@@ -105,12 +104,12 @@ class Pipe
   public function pipe_msg($json) 
   {
     $data = false;
-    $postdata = "OK:msg:".strlen($json).":".$json;
+    $postdata = "OK:msg:".mb_strlen($json, "UTF-8").":".$json;
 
     $fp = NULL;
     if(defined('PIPE_URL') && defined('PIPE_PORT'))
       $fp = @fsockopen(PIPE_URL, PIPE_PORT, $errno, $errstr, 1);
-    
+
     if ($fp) 
       {
 	stream_set_timeout($fp,1);
@@ -166,10 +165,6 @@ class Pipe
 		$cd = http_parse_cookie($headers['Set-Cookie']);
 		foreach ($cd->cookies as $key => $value) 
 		  {
-		    if($key == 'auth')
-		      {
-			$this->user = current(explode("-", $value));
-		      }
 		    setcookie($key, $value, $cd->expires, $cd->path, $cd->domain);
 		    $_COOKIE[$key] = $value;
 		  }
