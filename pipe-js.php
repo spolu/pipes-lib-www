@@ -61,6 +61,7 @@ if (!$data) {
 } 
 else 
   {
+    header('Content-Type: text/html; charset=UTF-8');
     $headers = http_parse_headers($hdrs);
     
     /** cookie handling */
