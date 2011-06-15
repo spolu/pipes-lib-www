@@ -10,7 +10,15 @@ $json = file_get_contents("php://input");
 //echo $postdata." strlen: ".strlen($postdata);
 
 $data = false;
-$postdata = "OK:msg:".strlen($json).":".$json;
+
+if(preg_match('/OK:.*:(?P<digit>\d*):(?P<data>.*)$/', $json, $matches)) 
+  {
+    $postdata = $json;
+  }
+else
+  {
+    $postdata = "OK:msg:".strlen($json).":".$json;
+  }
 
 $fp = NULL;
 if(defined('PIPE_URL') && defined('PIPE_PORT'))
