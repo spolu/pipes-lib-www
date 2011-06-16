@@ -11,6 +11,8 @@ $json = file_get_contents("php://input");
 
 $data = false;
 
+// both are needed. one native, one for accurate length calculation
+// in face of UTF8 data in web based context
 if(preg_match('/OK:.*:(?P<digit>\d*):(?P<data>.*)$/', $json, $matches)) 
   {
     $postdata = $json;
