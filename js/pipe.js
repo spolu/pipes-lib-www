@@ -3,7 +3,7 @@ BIPSLY.ns('pipe');
 BIPSLY.pipe = function(spec, my) {
     my = my || {};
     
-    my.url = spec.url || '/pipe-lib-www/pipe-js.php';
+    my.url = spec.url || '/pipes-lib-www/pipe-js.php';
 
     var that = {};
 
