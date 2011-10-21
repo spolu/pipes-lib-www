@@ -1,9 +1,9 @@
-BIPSLY.ns('cohort');
+PIPES.ns('cohort');
 
-BIPSLY.cohort = function(spec, my) {
+PIPES.cohort = function(spec, my) {
     my = my || {};
 
-    my.pipe = BIPSLY.pipe({});
+    my.pipe = PIPES.pipe({});
     my.hash = '';
 
     var that = {};
@@ -12,9 +12,6 @@ BIPSLY.cohort = function(spec, my) {
 
     capture = function(action, data) {
 	
-	if(!my.pipe.user())
-	    return;
-
 	if(typeof action === 'undefined')
 	    return;
 	
@@ -44,10 +41,9 @@ BIPSLY.cohort = function(spec, my) {
     };
 
     live = function(cb) {
-	
-	if(!my.pipe.user())
-	    return;
-	
+
+      console.log('calling live');
+      
 	var msg = {
 	    ver: 1,
 	    type: '2w',
@@ -57,22 +53,23 @@ BIPSLY.cohort = function(spec, my) {
 	};
 	my.pipe.msg({ msg: msg,
 		      success: function(obj) {
+			console.log('cohort: live success pipe');
 			if(!obj.error && obj.hash)  {
-			    my.hash = obj.hash;
-			    if(obj.sessions) {				
-				cb(obj.sessions);
-			    }
-			    live(cb);
+			  my.hash = obj.hash;
+			  if(obj.sessions) {				
+			    cb(obj.sessions);
+			  }
+			  live(cb);
 			}
-		      }
+		      },
+		      error: function() {
+			console.log('cohort: live error pipe');			  
+		      }		      
 		    });	    		
     };
 
     day = function(day, month, year, cb) {
-	
-	if(!my.pipe.user())
-	    return;
-	
+		
 	var msg = {
 	    ver: 1,
 	    type: '2w',
@@ -92,10 +89,7 @@ BIPSLY.cohort = function(spec, my) {
     };
 
     counter = function(day, month, year, cb) {
-	
-	if(!my.pipe.user())
-	    return;
-	
+		
 	var msg = {
 	    ver: 1,
 	    type: '2w',
@@ -107,9 +101,13 @@ BIPSLY.cohort = function(spec, my) {
 	};
 	my.pipe.msg({ msg: msg,
 		      success: function(obj) {
+			console.log('cohort: getcounter success pipe');
 			  if(obj.day || obj.month || obj.year) {				
 			      cb(obj);
 			  }
+		      },
+		      error: function() {
+			console.log('cohort: getcounter error pipe');
 		      }
 		    });	    		
     };

@@ -1,6 +1,6 @@
-BIPSLY.ns('util.capability');
+PIPES.ns('util.capability');
 
-BIPSLY.util.capability = 
+PIPES.util.capability = 
     (function () {	
 	var my = {};
 	
@@ -87,12 +87,12 @@ BIPSLY.util.capability =
  
 	var that = {};
 
-	BIPSLY.getter(that, my.capability, 'uagent');
-	BIPSLY.getter(that, my.capability, 'cookie');
-	BIPSLY.getter(that, my.capability, 'mobile');
-	BIPSLY.getter(that, my.capability, 'jqmobile');
-	BIPSLY.getter(that, my.capability, 'btype');
-	BIPSLY.getter(that, my.capability, 'moz');
+	PIPES.getter(that, my.capability, 'uagent');
+	PIPES.getter(that, my.capability, 'cookie');
+	PIPES.getter(that, my.capability, 'mobile');
+	PIPES.getter(that, my.capability, 'jqmobile');
+	PIPES.getter(that, my.capability, 'btype');
+	PIPES.getter(that, my.capability, 'moz');
 			      
 	return that;			    
     }());
