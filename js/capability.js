@@ -87,12 +87,12 @@ PIPES.util.capability =
  
 	var that = {};
 
-	PIPES.getter(that, my.capability, 'uagent');
-	PIPES.getter(that, my.capability, 'cookie');
-	PIPES.getter(that, my.capability, 'mobile');
-	PIPES.getter(that, my.capability, 'jqmobile');
-	PIPES.getter(that, my.capability, 'btype');
-	PIPES.getter(that, my.capability, 'moz');
+	PIPES.getter(that, 'uagent', my.capability, 'uagent');
+	PIPES.getter(that, 'cookie', my.capability, 'cookie');
+	PIPES.getter(that, 'mobile', my.capability, 'mobile');
+	PIPES.getter(that, 'jqmobile', my.capability, 'jqmobile');
+	PIPES.getter(that, 'btype', my.capability, 'btype');
+	PIPES.getter(that, 'moz', my.capability, 'moz');
 			      
 	return that;			    
     }());
