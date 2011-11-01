@@ -21,8 +21,8 @@ PIPES.util.capability =
 	/** cookie support detection */
 	var testexp = new Date();
 	testexp.setTime(testexp.getTime() + 1000);
-	$.cookie('bipsly-test-cookie', 'OK', { path: '/', expires: testexp });
-	if($.cookie('bipsly-test-cookie'))
+	$.cookie('pipes-test-cookie', 'OK', { path: '/', expires: testexp });
+	if($.cookie('pipes-test-cookie'))
 	    my.capability.cookie = true;
 
 	if(/mozilla\/5\.0/i.test(my.capability.uagent)) {
