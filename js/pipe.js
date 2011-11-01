@@ -1,24 +1,24 @@
 var PIPES = PIPES || {};
 
 PIPES.ns = function(ns) {
-    var parts = ns.split('.');
-    var parent = PIPES;    
-    
-    if(parts[0] === 'PIPES')
-	parts = parts.slice(1);
-    
-    for(var i = 0; i < parts.length; i += 1) {
-	parent[parts[i]] = parent[parts[i]] || {};
-	parent = parent[parts[i]];	
-    }
-    return parent;
+  var parts = ns.split('.');
+  var parent = PIPES;    
+  
+  if(parts[0] === 'PIPES')
+    parts = parts.slice(1);
+  
+  for(var i = 0; i < parts.length; i += 1) {
+    parent[parts[i]] = parent[parts[i]] || {};
+    parent = parent[parts[i]];	
+  }
+  return parent;
 };
 
 PIPES.getter = function(obj, my, prop) {
-    var getter = function() {
-	return my[prop];
-    };
-    obj[prop] = getter;
+  var getter = function() {
+    return my[prop];
+  };
+  obj[prop] = getter;
 };
 
 
@@ -143,65 +143,67 @@ Date.prototype.format = function (mask, utc) {
 PIPES.ns('pipe');
 
 PIPES.pipe = function(spec, my) {
-    my = my || {};
+  my = my || {};
+  
+  my.url = spec.url || '/lib/pipes-lib-www/pipe-js.php';
+
+  var that = {};
+
+  var msg, user;
+
+  msg = function(spec, cb) {
+
+    spec.msg.ver = spec.msg.ver || 1;
+    spec.msg.type = spec.msg.type || '2w';
+    spec.msg.meta = spec.msg.meta || {};
+    spec.msg.meta.device = 'web';
+
+    if(typeof spec.msg.subj === "undefined") {
+      if(spec.error)
+	spec.error(new Error('subj not specified'));
+      return ;	    
+    }
+    if(typeof spec.msg.targ === "undefined") {
+      if(spec.error)
+	spec.error(new Error('targ not specified'));
+      return ;	    
+    }
     
-    my.url = spec.url || '/lib/pipes-lib-www/pipe-js.php';
-
-    var that = {};
-
-    var msg, user;
-
-    msg = function(spec, cb) {
-
-	spec.msg.ver = spec.msg.ver || 1;
-	spec.msg.type = spec.msg.type || '2w';
-
-	if(typeof spec.msg.subj === "undefined") {
-	    if(spec.error)
-		spec.error(new Error('subj not specified'));
-	    return ;	    
-	}
-	if(typeof spec.msg.targ === "undefined") {
-	    if(spec.error)
-		spec.error(new Error('targ not specified'));
-	    return ;	    
-	}
-	
-	var json = $.toJSON(spec.msg);
-	
-	$.ajax({ type: 'POST',
-		 url: my.url,
-		 data: json,
-		 success: function(data, status, xhr) {
-		     var res = /OK:body:([0-9]+):(.+)$/.exec(data);
-		     if(res) {
-			 if(spec.success) {
-			     spec.success($.evalJSON(res[2]));
-			 }
-		     }
-		     else if(spec.error) {
-			 spec.error(new Error(data));
-		     }
-		 },
-		 error: function(qXHR, textStatus, errorThrown) {
-		     if(spec.error)
-			 spec.error(textStatus);
+    var json = $.toJSON(spec.msg);
+    
+    $.ajax({ type: 'POST',
+	     url: my.url,
+	     data: json,
+	     success: function(data, status, xhr) {
+	       var res = /OK:body:([0-9]+):(.+)$/.exec(data);
+	       if(res) {
+		 if(spec.success) {
+		   spec.success($.evalJSON(res[2]));
 		 }
-	       });
-    };
+	       }
+	       else if(spec.error) {
+		 spec.error(new Error(data));
+	       }
+	     },
+	     error: function(qXHR, textStatus, errorThrown) {
+	       if(spec.error)
+		 spec.error(textStatus);
+	     }
+	   });
+  };
 
-    user = function() {
-	if($.cookie('auth')) {
-	    var auth = /^([a-zA-Z0-9]+)-(.+)-([a-zA-Z0-9]+)$/.exec($.cookie('auth'));
-	    if(auth) {
-		return auth[1];
-	    }
-	}
-	return undefined;
-    };
+  user = function() {
+    if($.cookie('auth')) {
+      var auth = /^([a-zA-Z0-9]+)-(.+)-([a-zA-Z0-9]+)$/.exec($.cookie('auth'));
+      if(auth) {
+	return auth[1];
+      }
+    }
+    return undefined;
+  };
 
-    that.msg = msg;
-    that.user = user;
-    
-    return that;
+  that.msg = msg;
+  that.user = user;
+  
+  return that;
 };
