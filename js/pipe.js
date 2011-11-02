@@ -293,7 +293,7 @@ PIPES.EventEmitter = function(spec, my) {
     for(var i = 0; i < chain.length; i ++) {
       if(chain[i] === handler) {
 	my.handlers[type].splice(i,1);
-	break;
+	i--;
       }
     }
   };
