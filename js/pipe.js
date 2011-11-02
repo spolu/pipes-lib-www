@@ -271,8 +271,12 @@ PIPES.EventEmitter = function(spec, my) {
   var that = {};
 
   on = function(type, handler) {
-    my.handlers[type] = my.handlers[type] || [];
-    my.handlers[type].push(handler);
+    if(typeof handler === 'function') {      
+      my.handlers[type] = my.handlers[type] || [];
+      my.handlers[type].push(handler);
+    }
+    else 
+      throw new Error('not a function');
   };
 
   emit = function(type, data) {
