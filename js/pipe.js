@@ -247,3 +247,57 @@ PIPES.pipe = function(spec, my) {
   
   return that;
 };
+
+
+
+
+
+
+PIPES.ns('EventEmitter');
+
+/**
+ * trivial event emitter
+ */
+PIPES.EventEmitter = function(spec, my) {
+  my = my || {};
+
+  my.handlers = {};
+  
+  // public
+  var on;    /* on(type, handler) register an event handler */
+  var emit;  /* emit(type, data) emit an event */
+  var off;   /* off(type, handler) remove an event handler */
+
+  var that = {};
+
+  on = function(type, handler) {
+    my.handlers[type] = my.handlers[type] || [];
+    my.handlers[type].push(handler);
+  };
+
+  emit = function(type, data) {
+    var chain = my.handlers[type];
+    if(typeof chain == 'undefined') return; // no handler for this type
+    for(var i = 0; i < chain.length; i++) {      
+      chain[i](data);
+    }
+  };
+
+  off = function(type, handler) {
+    var chain = my.handlers[type];
+    if(typeof chain == 'undefined') return; // no handler for this type
+    for(var i = 0; i < chain.length; i ++) {
+      if(chain[i] === handler) {
+	my.handlers[type].splice(i,1);
+	break;
+      }
+    }
+  };
+
+  PIPES.method(that, 'on', on);
+  PIPES.method(that, 'emit', emit);
+  PIPES.method(that, 'off', off);
+
+  return that;
+};
+
