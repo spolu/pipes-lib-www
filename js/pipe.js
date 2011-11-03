@@ -61,7 +61,19 @@ PIPES.responds = function(that, name) {
     return (that[name] && typeof that[name] === 'function');
 };
 
+PIPES.debug = 0;
 
+/**
+ * log()
+ * Calls console.log if availaible
+ */
+PIPES.log = function(str) {
+  if(PIPES.debug && 
+     typeof console !== 'undefined' &&
+     typeof console.log === 'function') {
+    console.log(str);
+  }
+};
 
 /** OBJECT EXTENSION */
 

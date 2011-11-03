@@ -42,7 +42,7 @@ PIPES.cohort = function(spec, my) {
 
     live = function(cb) {
 
-      console.log('calling live');
+      PIPES.log('calling live');
       
 	var msg = {
 	    ver: 1,
@@ -53,7 +53,7 @@ PIPES.cohort = function(spec, my) {
 	};
 	my.pipe.msg({ msg: msg,
 		      success: function(obj) {
-			console.log('cohort: live success pipe');
+			PIPES.log('cohort: live success pipe');
 			if(!obj.error && obj.hash)  {
 			  my.hash = obj.hash;
 			  if(obj.sessions) {				
@@ -63,7 +63,7 @@ PIPES.cohort = function(spec, my) {
 			}
 		      },
 		      error: function() {
-			console.log('cohort: live error pipe');			  
+			PIPES.log('cohort: live error pipe');			  
 		      }		      
 		    });	    		
     };
@@ -101,13 +101,13 @@ PIPES.cohort = function(spec, my) {
 	};
 	my.pipe.msg({ msg: msg,
 		      success: function(obj) {
-			console.log('cohort: getcounter success pipe');
+			PIPES.log('cohort: getcounter success pipe');
 			  if(obj.day || obj.month || obj.year) {				
 			      cb(obj);
 			  }
 		      },
 		      error: function() {
-			console.log('cohort: getcounter error pipe');
+			PIPES.log('cohort: getcounter error pipe');
 		      }
 		    });	    		
     };
