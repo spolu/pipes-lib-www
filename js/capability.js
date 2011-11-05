@@ -54,6 +54,9 @@ PIPES.util.capability =
 		my.capability.jqmobile = true;
 		my.capability.btype = 'bb6';
 	    }
+	    if(/MSIE/i.test(my.capability.uagent)) {
+		my.capability.btype = 'ie';
+	    }
 	    my.capability.moz = '5.x';
 	}
 	if(/mozilla\/4\../i.test(my.capability.uagent)) {
