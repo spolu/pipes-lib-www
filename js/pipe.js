@@ -246,7 +246,7 @@ PIPES.pipe = function(spec, my) {
 
   user = function() {
     if($.cookie('auth')) {
-      var auth = /^([a-zA-Z0-9]+)-(.+)-([a-zA-Z0-9]+)$/.exec($.cookie('auth'));
+      var auth = /^([a-zA-Z0-9\-_]+)-(.+)-([a-zA-Z0-9\-_]+)$/.exec($.cookie('auth'));
       if(auth) {
 	return auth[1];
       }
